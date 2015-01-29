@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace WindowsFormsApplication2
 {
@@ -37,7 +39,7 @@ namespace WindowsFormsApplication2
         {
             myBitmap = new Bitmap(width, height);
             Random r = new Random();
-            int[,] field = new int[height, width];
+            field = new int[height, width];
             for (int Xcount = 0; Xcount < myBitmap.Width; Xcount++)
             {
                 for (int Ycount = 0; Ycount < myBitmap.Height; Ycount++)
@@ -53,9 +55,9 @@ namespace WindowsFormsApplication2
 
         public void changeState(int number)
         {
-            int[,] newRow = new int[height, width];
             for (int i = 0; i < number; i++)
             {
+                int[,] newRow = new int[height, width];
                 for (int y = 0; y < myBitmap.Height; y++)
                 {
                     for (int x = 0; x < myBitmap.Width; x++)
