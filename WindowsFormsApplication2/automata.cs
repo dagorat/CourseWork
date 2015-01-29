@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
-using System.Threading.Tasks;
 using System.Threading;
 
 namespace WindowsFormsApplication2
@@ -15,13 +14,31 @@ namespace WindowsFormsApplication2
 
         public int width = 0, height = 0;
         public int[,] field;
-        private string[] names = new string[16]   {"AliceBlue", "Aquamarine", "DarkOrange", "Gainsboro", "Gray", "GreenYellow", "LightPink", "Magenta", 
-           "Purple", "Violet","Tomato", "SeaShell","Red", "Plum","Orchid", "MistyRose"};
+        private Color[] colors = new Color[16]   {   
+            Color.FromName("AliceBlue"), 
+            Color.FromName("Aquamarine"), 
+            Color.FromName("DarkOrange"), 
+            Color.FromName("Gainsboro"), 
+            Color.FromName("Gray"), 
+            Color.FromName("GreenYellow"), 
+            Color.FromName("LightPink"), 
+            Color.FromName("Magenta"), 
+            Color.FromName("Purple"), 
+            Color.FromName("Violet"),
+            Color.FromName("Tomato"), 
+            Color.FromName("SeaShell"),
+            Color.FromName("Red"), 
+            Color.FromName("Plum"),
+            Color.FromName("Orchid"), 
+            Color.FromName("MistyRose")
+        };
+
         public Graphics graphics;
         public Bitmap myBitmap;
 
         public void setDrawingArea(Control area)
         {
+            area.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             graphics = area.CreateGraphics();
         }
 
@@ -45,7 +62,7 @@ namespace WindowsFormsApplication2
                 for (int Ycount = 0; Ycount < myBitmap.Height; Ycount++)
                 {
                     field[Ycount, Xcount] = r.Next(16);
-                    myBitmap.SetPixel(Xcount, Ycount, Color.FromName(names[field[Ycount, Xcount]]));
+                    myBitmap.SetPixel(Xcount, Ycount, colors[field[Ycount, Xcount]]);
                 }
             }
             graphics.DrawImage(myBitmap, 0, 0, myBitmap.Width,
@@ -57,17 +74,19 @@ namespace WindowsFormsApplication2
         {
             for (int i = 0; i < number; i++)
             {
+                int width = myBitmap.Width;
+                int height = myBitmap.Height;
                 int[,] newRow = new int[height, width];
-                for (int y = 0; y < myBitmap.Height; y++)
+                for (int y = 0; y < height; y++)
                 {
-                    for (int x = 0; x < myBitmap.Width; x++)
+                    for (int x = 0; x < width; x++)
                     {
-                        int newState = (field[y, x] + 1) % names.Length;
+                        int newState = (field[y, x] + 1) % colors.Length;
                         if (
-                            (field[(y + myBitmap.Height - 1) % myBitmap.Height, x] == newState) ||
-                            (field[(y + 1) % myBitmap.Height, x] == newState) ||
-                            (field[y, (x + myBitmap.Width - 1) % myBitmap.Width] == newState) ||
-                            (field[y, (x + 1) % myBitmap.Width] == newState)
+                            (field[(y + height - 1) % height, x] == newState) ||
+                            (field[(y + 1) % height, x] == newState) ||
+                            (field[y, (x + width - 1) % width] == newState) ||
+                            (field[y, (x + 1) % width] == newState)
                         )
                         {
                             newRow[y, x] = newState;
@@ -79,15 +98,15 @@ namespace WindowsFormsApplication2
                     }
                 }
                 field = newRow;
-                for (int Xcount = 0; Xcount < myBitmap.Width; Xcount++)
+                for (int Xcount = 0; Xcount < width; Xcount++)
                 {
-                    for (int Ycount = 0; Ycount < myBitmap.Height; Ycount++)
+                    for (int Ycount = 0; Ycount < height; Ycount++)
                     {
-                        myBitmap.SetPixel(Xcount, Ycount, Color.FromName(names[field[Ycount, Xcount]]));
+                        myBitmap.SetPixel(Xcount, Ycount, colors[field[Ycount, Xcount]]);
                     }
                 }
-                graphics.DrawImage(myBitmap, 0, 0, myBitmap.Width,
-                      myBitmap.Height);
+                graphics.DrawImage(myBitmap, 0, 0, width,
+                      height);
             }
         }
 
