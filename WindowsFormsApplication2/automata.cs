@@ -9,7 +9,7 @@ using System.Threading;
 
 namespace WindowsFormsApplication2
 {
-    public class Automata
+    public class Automata : Panel
     {
 
         public int width = 0, height = 0;
@@ -32,24 +32,45 @@ namespace WindowsFormsApplication2
             Color.FromName("Orchid"), 
             Color.FromName("MistyRose")
         };
-
+        public int state;
         public Graphics graphics;
         public Bitmap myBitmap;
+        public int number;
 
-        public void setDrawingArea(Control area)
+        public Automata()
         {
-            area.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-            graphics = area.CreateGraphics();
+            graphics = this.CreateGraphics();
         }
 
-        public void setWidth(Control control)
+        public void setState(int st)
         {
-            width = control.Width;
+            this.state = st;
         }
 
-        public void setHeight(Control control)
+        public void setNumber(int num)
         {
-            height = control.Height;
+            this.number = num;
+        }
+
+        protected override void OnPaint(PaintEventArgs pe)
+        {
+            base.OnPaint(pe);
+            this.setWidth();
+            this.setHeight();
+            if (state == 0)
+                setBackground(this, graphics);
+            if (state == 1)
+                changeState(number);
+        }
+
+        public void setWidth()
+        {
+            width = this.Width;
+        }
+
+        public void setHeight()
+        {
+            height = this.Height;
         }
 
         public void setBackground(Control control, Graphics graphics)
@@ -57,16 +78,18 @@ namespace WindowsFormsApplication2
             myBitmap = new Bitmap(width, height);
             Random r = new Random();
             field = new int[height, width];
-            for (int Xcount = 0; Xcount < myBitmap.Width; Xcount++)
+            for (int Xcount = 0; Xcount < width; Xcount++)
             {
-                for (int Ycount = 0; Ycount < myBitmap.Height; Ycount++)
+                for (int Ycount = 0; Ycount < height; Ycount++)
                 {
                     field[Ycount, Xcount] = r.Next(16);
                     myBitmap.SetPixel(Xcount, Ycount, colors[field[Ycount, Xcount]]);
                 }
             }
-            graphics.DrawImage(myBitmap, 0, 0, myBitmap.Width,
-                 myBitmap.Height); 
+           graphics.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
+           graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+           graphics.DrawImage(myBitmap, 0, 0, width,
+                 height); 
 
         }
 
@@ -105,6 +128,8 @@ namespace WindowsFormsApplication2
                         myBitmap.SetPixel(Xcount, Ycount, colors[field[Ycount, Xcount]]);
                     }
                 }
+                graphics.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceCopy;
+                graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
                 graphics.DrawImage(myBitmap, 0, 0, width,
                       height);
             }

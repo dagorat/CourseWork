@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.drawPanel = new System.Windows.Forms.Panel();
+            this.drawPanel = new Automata();
             this.RandomButton = new System.Windows.Forms.Button();
             this.changeButton = new System.Windows.Forms.Button();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
@@ -39,7 +39,7 @@
             // 
             this.drawPanel.Location = new System.Drawing.Point(9, 14);
             this.drawPanel.Name = "drawPanel";
-            this.drawPanel.Size = new System.Drawing.Size(184, 178);
+            this.drawPanel.Size = new System.Drawing.Size(200, 200);
             this.drawPanel.TabIndex = 0;
             // 
             // RandomButton
@@ -87,7 +87,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel drawPanel;
+        private Automata drawPanel;
         private System.Windows.Forms.Button RandomButton;
         private System.Windows.Forms.Button changeButton;
         private System.Windows.Forms.NumericUpDown numericUpDown1;

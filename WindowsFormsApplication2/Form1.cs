@@ -13,24 +13,24 @@ namespace WindowsFormsApplication2
     public partial class Form1 : Form
     {
 
-        public Automata automata = new Automata();
-
         public Form1()
         {
             InitializeComponent();
-            automata.setDrawingArea(drawPanel);
-            automata.setHeight(drawPanel);
-            automata.setWidth(drawPanel);
         }
 
         private void setRandom_Click(object sender, EventArgs e)
         {
-            automata.setBackground(drawPanel, automata.graphics);
+            drawPanel.Invalidate();
+            drawPanel.Update();
         }
 
         private void changeButton_Click(object sender, EventArgs e)
         {
-            automata.changeState((int) numericUpDown1.Value);
+            drawPanel.setState(1);
+            drawPanel.setNumber((int) numericUpDown1.Value);
+            drawPanel.Invalidate();
+            drawPanel.Update();
         }
+
     }
 }
